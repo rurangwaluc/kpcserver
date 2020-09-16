@@ -1,4 +1,4 @@
-const User = require('../models/user');
+const User = require('../models/User');
 const {
     Order
 } = require('../models/order');
@@ -139,7 +139,9 @@ exports.purchaseHistory = (req, res) => {
 
 exports.addToCart = (req, res) => {
 
-    User.findOne({ _id: req.user._id }, (err, userInfo) => {
+    User.findOne({
+        _id: req.user._id
+    }, (err, userInfo) => {
         let duplicate = false;
 
         console.log(userInfo)
@@ -152,19 +154,28 @@ exports.addToCart = (req, res) => {
 
 
         if (duplicate) {
-            User.findOneAndUpdate(
-                { _id: req.user._id, "cart.id": req.query.productId },
-                { $inc: { "cart.$.quantity": 1 } },
-                { new: true },
+            User.findOneAndUpdate({
+                    _id: req.user._id,
+                    "cart.id": req.query.productId
+                }, {
+                    $inc: {
+                        "cart.$.quantity": 1
+                    }
+                }, {
+                    new: true
+                },
                 (err, userInfo) => {
-                    if (err) return res.json({ success: false, err });
+                    if (err) return res.json({
+                        success: false,
+                        err
+                    });
                     res.status(200).json(userInfo.cart)
                 }
             )
         } else {
-            User.findOneAndUpdate(
-                { _id: req.user._id },
-                {
+            User.findOneAndUpdate({
+                    _id: req.user._id
+                }, {
                     $push: {
                         cart: {
                             id: req.query.productId,
@@ -172,10 +183,14 @@ exports.addToCart = (req, res) => {
                             date: Date.now()
                         }
                     }
+                }, {
+                    new: true
                 },
-                { new: true },
                 (err, userInfo) => {
-                    if (err) return res.json({ success: false, err });
+                    if (err) return res.json({
+                        success: false,
+                        err
+                    });
                     res.status(200).json(userInfo.cart)
                 }
             )
@@ -186,20 +201,28 @@ exports.addToCart = (req, res) => {
 
 exports.removeFromCart = (req, res) => {
 
-    User.findOneAndUpdate(
-        { _id: req.user._id },
-        {
-            "$pull":
-                { "cart": { "id": req.query._id } }
+    User.findOneAndUpdate({
+            _id: req.user._id
+        }, {
+            "$pull": {
+                "cart": {
+                    "id": req.query._id
+                }
+            }
+        }, {
+            new: true
         },
-        { new: true },
         (err, userInfo) => {
             let cart = userInfo.cart;
             let array = cart.map(item => {
                 return item.id
             })
 
-            Product.find({ '_id': { $in: array } })
+            Product.find({
+                    '_id': {
+                        $in: array
+                    }
+                })
                 .populate('writer')
                 .exec((err, cartDetail) => {
                     return res.status(200).json({
@@ -213,8 +236,9 @@ exports.removeFromCart = (req, res) => {
 
 
 exports.userCartInfo = (req, res) => {
-    User.findOne(
-        { _id: req.user._id },
+    User.findOne({
+            _id: req.user._id
+        },
         (err, userInfo) => {
             let cart = userInfo.cart;
             let array = cart.map(item => {
@@ -222,14 +246,21 @@ exports.userCartInfo = (req, res) => {
             })
 
 
-            Product.find({ '_id': { $in: array } })
+            Product.find({
+                    '_id': {
+                        $in: array
+                    }
+                })
                 .populate('writer')
                 .exec((err, cartDetail) => {
                     if (err) return res.status(400).send(err);
-                    return res.status(200).json({ success: true, cartDetail, cart })
+                    return res.status(200).json({
+                        success: true,
+                        cartDetail,
+                        cart
+                    })
                 })
 
         }
     )
 }
-
