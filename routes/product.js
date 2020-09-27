@@ -29,7 +29,7 @@ const {
 router.get("/product/products_by_id", productPage);
 router.get("/product/:productId", read);
 router.post("/product/create", create);
-router.get("/product/getProducts", getProducts);
+router.get("/getProducts", getProducts);
 router.delete(
     "/product/:productId/:userId",
     requireSignin,
@@ -47,6 +47,7 @@ router.put(
 
 router.post("/products/uploadImage", uploadImage);
 router.get("/products", list);
+router.get("/productBySell", list);
 router.get("/products/search", listSearch);
 router.get("/products/related/:productId", listRelated);
 router.get("/products/categories", listCategories);
