@@ -5,7 +5,7 @@
       .withMessage('Email must contain @')
       .isLength({
         min: 4,
-        max: 32
+        max: 35
       });
     req.check('password', 'Password is required').notEmpty();
     req.check('password')
