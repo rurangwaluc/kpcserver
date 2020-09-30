@@ -126,7 +126,7 @@ exports.getProducts = (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 5;
 
   Product.find()
-    // .select('-photo')
+    .select('-photo')
     .populate('category')
     .sort([
       [sortBy, order]
@@ -185,7 +185,7 @@ exports.list = (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
   Product.find()
-    // .select('-photo')
+    .select('-photo')
     .populate('category')
     .sort([
       [sortBy, order]
@@ -207,7 +207,7 @@ exports.listBySell = (req, res) => {
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
   Product.find()
-    // .select('-photo')
+    .select('-photo')
     .populate('category')
     .sort([
       [sortBy, order]
