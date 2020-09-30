@@ -121,7 +121,7 @@ exports.read = (req, res) => {
 
 
 exports.getProducts = (req, res) => {
-  let order = req.query.order ? req.query.order : 'desc';
+  let order = req.query.order ? req.query.order : 'asc';
   let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
   let limit = req.query.limit ? parseInt(req.query.limit) : 5;
 
@@ -180,7 +180,7 @@ exports.update = (req, res) => {
  */
 
 exports.list = (req, res) => {
-  let order = req.query.order ? req.query.order : 'asc';
+  let order = req.query.order ? req.query.order : 'desc';
   let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
   let limit = req.query.limit ? parseInt(req.query.limit) : 10;
 
@@ -202,7 +202,7 @@ exports.list = (req, res) => {
 };
 
 exports.listBySell = (req, res) => {
-  let order = req.query.order ? req.query.order : 'asc';
+  let order = req.query.order ? req.query.order : 'desc';
   let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
 
